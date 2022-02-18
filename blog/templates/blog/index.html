@@ -1,0 +1,142 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-title">
+        <div class="container">
+            <h2>博客文章列表</h2>
+            <ul class="nav">
+                <li><a href="{% url 'blog:index' %}">首页</a></li>
+                <li><a href="{% url 'blog:index' %}">博客</a></li>
+                <li>文章列表</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container pt-120 pb-90">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                {% if search %}
+                    {% if articles %}
+                        <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
+                        <hr>
+                    {% else %}
+                        <h4>暂无<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
+                        <hr>
+                    {% endif %}
+                {% endif %}
+                {% for article in articles %}
+                    <!-- 文章内容 -->
+                    <div class="post-default post-has-right-thumb">
+                        <div class="d-flex flex-wrap">
+                            <div class="post-thumb align-self-stretch order-md-2">
+                                {% if article.avatar.url %}
+                                <a href="{% url 'blog:detail' article.id %}">
+                                    <div class="bg-img" style='background-image: url("{{ article.avatar.url }}");'></div>
+                                </a>
+                                {% endif %}
+                            </div>
+                            <div class="post-data order-md-1">
+                                <!-- Category -->
+                                <div class="cats">
+                                    {% for column in article.column.all %}
+                                        <a href="#">{{ column }}</a>
+                                    {% empty %}
+                                        <p>暂无分类</p>
+                                    {% endfor %}
+                                </div>
+                                <!-- Title -->
+                                <div class="title">
+                                    <h2><a href="{% url 'blog:detail' article.id %}">{{ article.title }}</a></h2>
+                                </div>
+                                <!-- Post Meta -->
+                                <ul class="nav meta align-items-center">
+                                    <li class="meta-author">
+{#                                        <img src="{{ user.avatar.url }}" alt=""#}
+{#                                             class="img-fluid">#}
+                                        创建人:<a href="#">{{ article.author }}</a>
+                                    </li>
+                                    <li class="meta-date"><span><i class="fas fa-clock" style="color: pink;"></i>{{ article.created_time }}</span></li>
+                                    <li class="meta-comments"><a href="#"><i class="fa fa-comment"></i> 2</a></li>
+                                    <li><i class="fas fa-eye" style="color: lightskyblue;"></i><em>{{ article.total_views }}</em></li>
+                                </ul>
+                                <!-- Post Desc -->
+                                <div class="desc">
+                                    <p>
+                                        {% if "{{ article.body | length}}" > 50 %}
+                                            {{ article.body | safe | slice:50 }}...
+                                        {% else %}
+                                            {{ article.body | safe | slice:50 }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <!-- Read More Button -->
+                                <a href="{% url 'blog:detail' article.id %}" class="btn btn-primary">查看详细</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% block pagination %}
+                    <div class="post-pagination d-flex justify-content-center">
+                        {% if articles.has_previous %}
+                            <a href="?page=1" class="">
+                                &laquo; 1
+                            </a>
+                            <span>...</span>
+                            <a href="?page={{ articles.previous_page_number }}"
+                               class=""
+                            >
+                                {{ articles.previous_page_number }}
+                            </a>
+                        {% endif %}
+                        <span class="current">{{ articles.number }}</span>
+
+                        {% if articles.has_next %}
+                            <a href="?page={{ articles.next_page_number }}"
+                               class=""
+                            >
+                                {{ articles.next_page_number }}
+                            </a>
+                            <span>...</span>
+                            <a href="?page={{ articles.paginator.num_pages }}"
+                            >
+                                {{ articles.paginator.num_pages }} &raquo;
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endblock pagination %}
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                {% include 'blog/right.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block title %}
+    博客文章列表
+{% endblock title %}
+{% block js_extra %}
+        <script type="text/javascript">
+        .sidebar
+        {
+            will - change
+        :
+            min - height;
+        }
+
+        .sidebar__inner
+        {
+            transform: translate(0, 0);
+            transform: translate3d(0, 0, 0);
+            will - change
+        :
+            position, transform;
+        }
+    </script>
+    <script src="{% static 'blog/sticky_sidebar/jquery.sticky-sidebar.min.js' %}"></script>
+    <script type="text/javascript">
+        $('#sidebar').stickySidebar({
+            topSpacing: 20,
+            bottomSpacing: 20,
+        });
+    </script>
+{% endblock js_extra %}

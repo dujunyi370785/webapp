@@ -1,0 +1,107 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block main %}
+    {% block right %}
+        <div class="my-sidebar" id="sidebar">
+            <div class="sidebar__inner">
+                <!-- Author Widget -->
+                {% if toc %}
+                    <div class="widget widget-about">
+                        <!-- Widget Content -->
+                        <div class="widget-content">
+
+                            <h4><strong>目录</strong></h4>
+                            <hr>
+                            <div>
+                                {{ toc|safe }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- Author Widget -->
+                <div class="widget widget-about">
+                    <!-- Widget Content -->
+                    <div class="widget-content">
+                        <!-- Author Image -->
+                        <div class="author-image">
+                            <img src="assets/images/blog/author.jpg" alt="" class="img-fluid">
+                        </div>
+                        <!-- Author Name -->
+                        <div class="author-name">
+                            <a href="#"> 博主简介 </a>
+                        </div>
+                        <!-- Author Social Links -->
+                        <div class="author-social text-center">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-google-plus"></i></a>
+                        </div>
+                        <!-- Author Text -->
+                        <div class="author-text text-center">
+                            Python之禅（节选）:优美胜于丑陋, 明了胜于晦涩,简洁胜于复杂, 复杂胜于凌乱,扁平胜于嵌套,间隔胜于紧凑
+                        </div>
+                    </div>
+                    <!-- End of Widget Content -->
+                </div>
+                <!-- End of Author Widget -->
+                <div class="widget widget-newsletter">
+                    <!-- Widget Title -->
+                    <h4 class="widget-title">
+                        搜索
+                    </h4>
+                    <!-- End of Widget Title -->
+
+                    <!-- Widget Content -->
+                    <div class="widget-content">
+                        <!-- Newsletter Text -->
+                        <p>输入关键字搜索</p>
+                        <!-- Newsletter Form -->
+                        <div class="newsletter">
+                            <form action="{% url 'blog:index' %}" method="get"
+                                  novalidate="">
+                                <input type="text" class="form-control" placeholder="搜索关键字..." name="search" required>
+                                <button class="btn btn-block btn-default">全站搜索</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End of Widget Content -->
+                </div>
+
+                <div class="widget widget-recent-post">
+                    <div>
+                        <!-- Widget Title -->
+                        <h4 class="widget-title">
+                        <span style="float:right;margin-right: 10px;font-size: 14px"><a
+                                href="{% url 'blog:index' %}?order_by=total_views" class="cats">更多>></a></span>
+                            最热文章
+                        </h4>
+                        <!-- End of Widget Title -->
+                        <span></span>
+                    </div>
+                    <!-- Widget Content -->
+                    <div class="widget-content">
+                        <!-- Single Post -->
+                        {% for article in articles_popular %}
+                            {% if forloop.counter < 4 %}
+                                <div class="wrp-cover">
+                                    <!-- Post Thumbnail -->
+                                    <div class="post-thumb">
+                                        <a href="blog-details.html">
+                                            <img src="assets/images/sidebar/rp-4.jpg" alt="" class="img-fluid">
+                                        </a>
+                                    </div>
+                                    <!-- Post Title -->
+                                    <div class="post-title">
+                                        <a href="blog-details.html">{{ article.title }}</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- End of Widget Content -->
+                </div>
+            </div>
+        </div>
+    {% endblock right %}
+{% endblock main %}

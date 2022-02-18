@@ -1,0 +1,212 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}
+    博文详细 - {{ article.title }}
+{% endblock %}
+{% block content %}
+    <div class="page-title">
+        <div class="container">
+            <h2></h2>
+            <ul class="nav">
+                <li><a href="{% url 'blog:index' %}">首页</a></li>
+                <li><a href="{% url 'blog:index' %}">博客</a></li>
+                <li>{{ article.title }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container pb-120">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-md-8">
+                <div class="post-details-cover post-has-full-width-image">
+                    <div class="post-meta-info">
+                        <!-- Category -->
+                        <div class="cats">
+                            {% for column in article.column.all %}
+                                <a href="#">{{ column }}</a>
+                            {% empty %}
+                                <p>暂无分类</p>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Title -->
+                        <div class="title">
+                            <h2>{{ article.title }}</h2>
+                        </div>
+
+                        <!-- Meta -->
+                        <ul class="nav meta align-items-center">
+                            <li class="meta-author">
+                                <img src="{% static 'blog/images/blog/author.jpg' %}" alt="" class="img-fluid">
+                                <a href="#">{{ article.author }}</a>
+                            </li>
+                            <li class="meta-date"><a href="#">{{ article.created_time }}</a></li>
+                            <li> 2 min read</li>
+                            <li class="meta-comments"><a href="#"><i class="fa fa-comment"></i> 2</a></li>
+                            <li><a href="{% url 'blog:article_update' article.id %}">修改文章</a></li>
+                            <li><a href="#" onclick="confirm_safe_delete()">删除文章</a></li>
+                        </ul>
+                        <div class="post-content-cover my-drop-cap">
+                            {{ article.body | safe }}
+                        </div>
+                        <form style="display: none;" id="safe_delete"
+                              action="{% url 'blog:article_delete' article.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">发送</button>
+                        </form>
+                    </div>
+                    <button class="btn btn-comment collapsed" type="button" data-toggle="collapse"
+                            data-target="#commentToggle" aria-expanded="false" aria-controls="commentToggle">
+                        隐藏 {{ comments.count }} 条评论
+                    </button>
+                    <div class="collapse show" id="commentToggle" style="">
+                        <ul class="post-all-comments">
+                            <li class="single-comment-wrapper">
+                                <!-- Single Comment -->
+                                <div class="single-post-comment">
+
+                                    <!-- Author Image -->
+                                    {% for comment in comments %}
+{#                                        <div class="comment-author-image">#}
+{#                                            <img src="assets/images/blog/post/author-1.jpg" alt="" class="img-fluid">#}
+{#                                        </div>#}
+                                        <!-- Comment Content -->
+{#                                        <div class="comment-content">#}
+                                        <div class="comment-content">
+                                            <div class="comment-author-name">
+                                                <h6>
+                                                    <strong>{{ comment.user }}</strong>
+                                                </h6>
+                                                <span> 于{{ comment.created_time | date:"Y-m-d H:i:s" }}时说： </span>
+                                            </div>
+                                            <p>{{ comment.body | safe }}</p>
+{#                                            <a href="#" class="reply-btn">Reply</a>#}
+                                        <br>
+                                        <br>
+                                        </div>
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                                <!-- End of Single Comment -->
+                            </li>
+                            <li class="single-comment-wrapper">
+                        </ul>
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <div>
+                            <form
+                                    action="{% url 'comment:post_comment' article.id %}"
+                                    method="POST"
+                            >
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="body">
+                                        <strong>
+                                            我也要发言：
+                                        </strong>
+                                    </label>
+                                    {#                                    <textarea#}
+                                    {#                                            type="text"#}
+                                    {#                                            class="form-control"#}
+                                    {#                                            id="body"#}
+                                    {#                                            name="body"#}
+                                    {#                                            rows="2"></textarea>#}
+                                    <div>
+                                        {{ comment_form.media }}
+                                        {{ comment_form.body }}
+                                    </div>
+                                </div>
+                                <!-- 提交按钮 -->
+                                <button type="submit" class="btn btn-primary ">发送</button>
+                            </form>
+                        </div>
+                        <br>
+                    {% else %}
+                        <br>
+                        <h5 class="row justify-content-center">
+                            请<a href="{% url 'userprofile:login' %}">登录</a>后回复
+                        </h5>
+                        <br>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                {% include 'blog/right.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block js_extra %}
+    <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+    <script src="https://cdn.bootcss.com/highlightjs-line-numbers.js/2.7.0/highlightjs-line-numbers.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+        hljs.initLineNumbersOnLoad();
+
+        function confirm_safe_delete() {
+            layer.open({
+                title: "确认删除",
+                content: "确认删除这篇文章吗?该操作将不可恢复！",
+                yes: function (index, layero) {
+                    $('form#safe_delete button').click();
+                    layer.close(index);
+                }
+            })
+        }
+    </script>
+    <script>
+        $(".django-ckeditor-widget").removeAttr('style');
+    </script>
+    <script type="text/javascript">
+        .sidebar
+        {
+            will - change
+        :
+            min - height;
+        }
+
+        .sidebar__inner
+        {
+            transform: translate(0, 0);
+            transform: translate3d(0, 0, 0);
+            will - change
+        :
+            position, transform;
+        }
+    </script>
+    <script src="{% static 'blog/sticky_sidebar/jquery.sticky-sidebar.min.js' %}"></script>
+    <script type="text/javascript">
+        $('#sidebar').stickySidebar({
+            topSpacing: 20,
+            bottomSpacing: 20,
+        });
+    </script>
+    <script>
+        // 加载 modal
+        function load_modal(article_id, comment_id) {
+            let modal_body = '#modal_body_' + comment_id;
+            let modal_id = '#comment_' + comment_id;
+
+            // 加载编辑器
+            if ($(modal_body).children().length === 0) {
+                let content = '<iframe src="/comment/post-comment/' +
+                    article_id +
+                    '/' +
+                    comment_id +
+                    '"' +
+                    ' frameborder="0" style="width: 100%; height: 100%;" id="iframe_' +
+                    comment_id +
+                    '"></iframe>';
+                $(modal_body).append(content);
+            }
+            ;
+
+            $(modal_id).modal('show');
+        }
+    </script>
+{% endblock js_extra %}
+{% block css_extra %}
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.8/styles/github.min.css" rel="stylesheet">
+    {#    <link href="{% static 'blog/css/md_css/monokai.css' %}" rel="stylesheet">#}
+{% endblock css_extra %}
