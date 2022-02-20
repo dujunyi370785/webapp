@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('polls/', include('polls.urls')),
     # path("login/", include("login.urls")),
-    path("captcha/", include("captcha.urls")),
+    # path("captcha/", include("captcha.urls")),
     path("blog/", include("blog.urls", namespace='blog')),
     path("comment/", include("comment.urls", namespace="comment")),
     path("userprofile/", include("userprofile.urls", namespace="userprofile")),
