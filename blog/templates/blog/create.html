@@ -1,50 +1,84 @@
-{% extends 'blog/base.html' %}
-{% load static %}
-{% block title %}
-    创建博客
+{% extends 'blog/base.html' %} {% load static %}
+{% block title %} 创建博客
 {% endblock title %}
+{% block css_extra %}
+<link href="{% static 'blog/mdeditor/css/editormd.min.css' %}" rel="stylesheet" />
+<link href="{% static 'blog/mdeditor/css/editormd.preview.css' %}" rel="stylesheet" />
+{% endblock css_extra %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <br>
-                <!-- 提交文章的表单 -->
-                <form method="post" action="." enctype="multipart/form-data">
-                    <!-- Django中需要POST数据的地方都必须有csrf_token -->
-                    {% csrf_token %}
-                    <!-- 文章标题 -->
-                    <div class="form-group">
-                        <!-- 标签 -->
-                        <label for="title">文章标题</label>
-                        <!-- 文本框 -->
-                        <input type="text" class="form-control" id="title" name="title">
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <br />
+            <!-- 提交文章的表单 -->
+            <form method="post" action="." enctype="multipart/form-data">
+                <!-- Django中需要POST数据的地方都必须有csrf_token -->
+                {% csrf_token %}
+                <!-- 文章标题 -->
+                <div class="form-group">
+                    <!-- 标签 -->
+                    <label for="title">文章标题</label>
+                    <!-- 文本框 -->
+                    <input type="text" class="form-control" id="title" name="title" />
+                </div>
+                <div class="form-group">
+                    <label for="column">文章栏目</label>
+                    <br />
+                    <div class="btn-group">
+                        {% for column in columns %}
+                        <label class="btn">
+                            <input value="{{ column.id }}" type="checkbox" id="{{ column.id }}" name="column" />{{
+                            column.title }}
+                        </label>
+                        {% endfor %}
                     </div>
-                    <div class="form-group">
-                        <label for="column">文章栏目</label>
-                        <br/>
-                        <div class="btn-group">
-                            {% for column in columns %}
-                                <label class="btn">
-                                    <input value="{{ column.id }}" type="checkbox" id="{{ column.id }}"
-                                           name="column"/>{{ column.title }}
-                                </label>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <!-- 文章正文 -->
-                    <div class="form-group">
-                        <label for="body">文章正文</label>
-                        <!-- 文本区域 -->
-                        <textarea type="text" class="form-control" id="body" name="body" rows="12"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="avatar">标题图</label>
-                        <input type="file" class="form-control-file" name="avatar" id="avatar">
-                    </div>
-                    <!-- 提交按钮 -->
+                </div>
+                <!-- 文章正文 -->
+                <div class="form-group">
+                    <label for="body">文章正文</label>
+                    <!-- 文本区域 -->
+                    <textarea type="text" class="form-control" id="body" name="body" rows="12">
+{{ article_post_form.body }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="avatar">标题图</label>
+                    <input type="file" class="form-control-file" name="avatar" id="avatar" />
+                </div>
+                <!-- 提交按钮 -->
+                <div class="form-group">
                     <button type="submit" class="btn btn-primary">完成</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 {% endblock content %}
+{% block js %} {% endblock js %}
+{% block js_extra %}
+<script src="{% static 'blog/mdeditor/js/jquery.min.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/editormd.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/lib/marked.min.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/lib/prettify.min.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/lib/raphael.min.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/lib/underscore.min.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/lib/flowchart.min.js' %}"></script>
+<script src="{% static 'blog/mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+<script>
+    $(function () {
+        // js 解析markdown
+        editormd.markdownToHTML("body", {
+            //htmlDecode      : "style,script,iframe",  // you can filter tags decode
+            emoji: true,
+            taskList: true,
+            tex: true, // 默认不解析
+            flowChart: true, // 默认不解析
+            sequenceDiagram: true, // 默认不解析
+        });
+
+        $(".reference-link").each(function (i, obj) {
+            console.log(obj);
+        });
+    });
+</script>
+{% endblock js_extra %}

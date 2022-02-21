@@ -2,6 +2,7 @@
 from django import forms
 # 引入文章模型
 from .models import ArticlePost
+from mdeditor.fields import MDTextFormField
 
 
 # 文章的表单类

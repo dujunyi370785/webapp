@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
+from mdeditor.fields import MDTextField
 
 
 class ArticleColumn(models.Model):
@@ -24,7 +25,7 @@ class ArticleColumn(models.Model):
 class ArticlePost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    body = models.TextField()
+    body = MDTextField()
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(auto_now=True)
     total_views = models.PositiveIntegerField(default=0)
