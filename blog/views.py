@@ -172,3 +172,7 @@ def article_update(request, id):
         columns = ArticleColumn.objects.all()
         context = {"article_post_form": article_post_form, "article": article, "columns": columns}
         return render(request, "blog/update.html", context=context)
+
+
+def about(request):
+    return render(request, "blog/about.html")

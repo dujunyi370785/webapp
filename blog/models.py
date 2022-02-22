@@ -30,6 +30,7 @@ class ArticlePost(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
     total_views = models.PositiveIntegerField(default=0)
     avatar = models.ImageField(upload_to='articles/%Y%m%d/', blank=True)
+    can_comment = models.BooleanField(default=False)
 
     column = models.ManyToManyField(
         ArticleColumn,

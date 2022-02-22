@@ -54,6 +54,7 @@
                             <button type="submit">发送</button>
                         </form>
                     </div>
+                    {% if article.can_comment %}
                     <button class="btn btn-comment collapsed" type="button" data-toggle="collapse"
                             data-target="#commentToggle" aria-expanded="false" aria-controls="commentToggle">
                         隐藏 {{ comments.count }} 条评论
@@ -128,6 +129,11 @@
                         </h5>
                         <br>
                     {% endif %}
+                {% else %}
+                        <div>
+                        <p>暂未开放评论功能</p>
+                        </div>
+                {% endif %}
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">

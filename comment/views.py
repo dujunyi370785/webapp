@@ -40,3 +40,4 @@ def post_comment(request, article_id, parent_comment_id=None):
     # 处理错误请求
     else:
         return HttpResponse("发表评论仅接受POST请求。")
+
