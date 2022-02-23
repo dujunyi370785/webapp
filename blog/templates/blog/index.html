@@ -19,7 +19,7 @@
                         <h4><span style="color: red">"{{ search }}"</span>的搜索结果如下：</h4>
                         <hr>
                     {% else %}
-                        <h4>暂无<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
+                        <h4>很遗憾，暂无<span style="color: red">"{{ search }}"</span>相关的文章。</h4>
                         <hr>
                     {% endif %}
                 {% endif %}
@@ -28,9 +28,9 @@
                     <div class="post-default post-has-right-thumb">
                         <div class="d-flex flex-wrap">
                             <div class="post-thumb align-self-stretch order-md-2">
-                                {% if article.avatar.url %}
+                                {% if article.avatar %}
                                 <a href="{% url 'blog:detail' article.id %}">
-                                    <div class="bg-img" style='background-image: url("{{ article.avatar.url }}");'></div>
+                                    <div class="bg-img" style='background-image: url("{{ article.avatar }}");'></div>
                                 </a>
                                 {% endif %}
                             </div>

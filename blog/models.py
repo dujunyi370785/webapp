@@ -29,7 +29,8 @@ class ArticlePost(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
     updated_time = models.DateTimeField(auto_now=True)
     total_views = models.PositiveIntegerField(default=0)
-    avatar = models.ImageField(upload_to='articles/%Y%m%d/', blank=True)
+    # avatar = models.ImageField(upload_to='articles/%Y%m%d/', blank=True)
+    avatar = models.CharField(verbose_name="标题图", max_length=2000)
     can_comment = models.BooleanField(default=False)
 
     column = models.ManyToManyField(
@@ -56,11 +57,12 @@ class ArticlePost(models.Model):
 
         # 固定宽度缩放图片大小
         if self.avatar and not kwargs.get('update_fields'):
-            image = Image.open(self.avatar)
-            (x, y) = image.size
-            new_x = 400
-            new_y = int(new_x * (y / x))
-            resized_image = image.resize((new_x, new_y), Image.ANTIALIAS)
-            resized_image.save(self.avatar.path)
+            pass
+            # image = Image.open(self.avatar)
+            # (x, y) = image.size
+            # new_x = 400
+            # new_y = int(new_x * (y / x))
+            # resized_image = image.resize((new_x, new_y), Image.ANTIALIAS)
+            # resized_image.save(self.avatar.path)
 
         return article

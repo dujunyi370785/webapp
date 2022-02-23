@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'collent_static')
 
 # Application definition
 
@@ -106,9 +106,18 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    "default":{
+        # 配置使用mysql
+        'ENGINE': 'django.db.backends.mysql',  # 数据库产品
+        'HOST': "172.17.0.2",  # 数据库ip
+        'PORT': 3306,  # 数据库端口
+        'USER': "root",  # 用户名
+        'PASSWORD': "*******",  # 密码
+        'NAME': "webapp",  # 数据库名
     }
 }
 
