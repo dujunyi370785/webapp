@@ -2,3 +2,5 @@
 db.sqlite3
 ./webapp/settings.py
 ./requirements.txt
+./logs/*
+./gunicorn/*
