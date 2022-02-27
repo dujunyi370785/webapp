@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'collent_static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 
 # Application definition
 
