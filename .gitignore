@@ -4,3 +4,7 @@ db.sqlite3
 ./requirements.txt
 ./logs/*
 ./gunicorn/*
+./polls/*
+./login_/*
+./.vscode/*
+./.idea/*
