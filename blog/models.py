@@ -13,6 +13,7 @@ class ArticleColumn(models.Model):
     # 创建时间
     created_time = models.DateTimeField(default=timezone.now)
 
+
     def __str__(self):
         return self.title
 
