@@ -78,15 +78,17 @@ def detail(request, id):
         'markdown.extensions.codehilite',
         'markdown.extensions.fenced_code',
         'markdown.extensions.toc',
+        'markdown.extensions.tables',
     ])
-    article.body = md.convert(article.body)
+    # 获得目录
+    md.convert(article.body)
 
     # 取出文章评论
     comments = Comment.objects.filter(article=id)
     comment_form = CommentForm()
     context = {"article": article, 'toc': md.toc, 'comments': comments, 'comment_form': comment_form}
-    return render(request, "blog/detail.html", context=context)
-
+    # return render(request, "blog/detail.html", context=context)
+    return render(request, "blog/article-content.html", context=context)
 
 @login_required
 def article_create(request):

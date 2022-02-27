@@ -1,2 +1,3 @@
 # 数据库文件
 db.sqlite3
+/webapp/settings.py
