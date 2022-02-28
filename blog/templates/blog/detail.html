@@ -20,7 +20,8 @@
                 <div class="post-details-cover post-has-full-width-image">
                     <div class="post-meta-info">
                         <!-- Category -->
-                        ;<div class="cats">
+                        ;
+                        <div class="cats">
                             {% for column in article.column.all %}
                                 <a href="#">{{ column }}</a>
                             {% empty %}
@@ -29,8 +30,10 @@
                         </div>
 
                         <!-- Title -->
-                        <div class="title">
-                            <h2>{{ article.title }}</h2>
+                        <div class="markdown-body">
+                            <div class="title">
+                                <h2>{{ article.title }}</h2>
+                            </div>
                         </div>
 
                         <!-- Meta -->
@@ -42,8 +45,8 @@
                             <li class="meta-date"><a href="#">{{ article.created_time }}</a></li>
                             <li> 2 min read</li>
                             <li class="meta-comments"><a href="#"><i class="fa fa-comment"></i> 2</a></li>
-{#                            <li><a href="{% url 'blog:article_update' article.id %}">修改文章</a></li>#}
-{#                            <li><a href="#" onclick="confirm_safe_delete()">删除文章</a></li>#}
+                            {#                            <li><a href="{% url 'blog:article_update' article.id %}">修改文章</a></li>#}
+                            {#                            <li><a href="#" onclick="confirm_safe_delete()">删除文章</a></li>#}
                         </ul>
                         <div class="post-content-cover my-drop-cap">
                             {{ article.body | safe }}
@@ -55,85 +58,85 @@
                         </form>
                     </div>
                     {% if article.can_comment %}
-                    <button class="btn btn-comment collapsed" type="button" data-toggle="collapse"
-                            data-target="#commentToggle" aria-expanded="false" aria-controls="commentToggle">
-                        隐藏 {{ comments.count }} 条评论
-                    </button>
-                    <div class="collapse show" id="commentToggle" style="">
-                        <ul class="post-all-comments">
-                            <li class="single-comment-wrapper">
-                                <!-- Single Comment -->
-                                <div class="single-post-comment">
+                        <button class="btn btn-comment collapsed" type="button" data-toggle="collapse"
+                                data-target="#commentToggle" aria-expanded="false" aria-controls="commentToggle">
+                            隐藏 {{ comments.count }} 条评论
+                        </button>
+                        <div class="collapse show" id="commentToggle" style="">
+                            <ul class="post-all-comments">
+                                <li class="single-comment-wrapper">
+                                    <!-- Single Comment -->
+                                    <div class="single-post-comment">
 
-                                    <!-- Author Image -->
-                                    {% for comment in comments %}
-{#                                        <div class="comment-author-image">#}
-{#                                            <img src="assets/images/blog/post/author-1.jpg" alt="" class="img-fluid">#}
-{#                                        </div>#}
-                                        <!-- Comment Content -->
-{#                                        <div class="comment-content">#}
-                                        <div class="comment-content">
-                                            <div class="comment-author-name">
-                                                <h6>
-                                                    <strong>{{ comment.user }}</strong>
-                                                </h6>
-                                                <span> 于{{ comment.created_time | date:"Y-m-d H:i:s" }}时说： </span>
+                                        <!-- Author Image -->
+                                        {% for comment in comments %}
+                                            {#                                        <div class="comment-author-image">#}
+                                            {#                                            <img src="assets/images/blog/post/author-1.jpg" alt="" class="img-fluid">#}
+                                            {#                                        </div>#}
+                                            <!-- Comment Content -->
+                                            {#                                        <div class="comment-content">#}
+                                            <div class="comment-content">
+                                                <div class="comment-author-name">
+                                                    <h6>
+                                                        <strong>{{ comment.user }}</strong>
+                                                    </h6>
+                                                    <span> 于{{ comment.created_time | date:"Y-m-d H:i:s" }}时说： </span>
+                                                </div>
+                                                <p>{{ comment.body | safe }}</p>
+                                                {#                                            <a href="#" class="reply-btn">Reply</a>#}
+                                                <br>
+                                                <br>
                                             </div>
-                                            <p>{{ comment.body | safe }}</p>
-{#                                            <a href="#" class="reply-btn">Reply</a>#}
-                                        <br>
-                                        <br>
-                                        </div>
-                                        <br>
-                                    {% endfor %}
-                                </div>
-                                <!-- End of Single Comment -->
-                            </li>
-                            <li class="single-comment-wrapper">
-                        </ul>
-                    </div>
-
-                    {% if user.is_authenticated %}
-                        <div>
-                            <form
-                                    action="{% url 'comment:post_comment' article.id %}"
-                                    method="POST"
-                            >
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <label for="body">
-                                        <strong>
-                                            我也要发言：
-                                        </strong>
-                                    </label>
-                                    {#                                    <textarea#}
-                                    {#                                            type="text"#}
-                                    {#                                            class="form-control"#}
-                                    {#                                            id="body"#}
-                                    {#                                            name="body"#}
-                                    {#                                            rows="2"></textarea>#}
-                                    <div>
-                                        {{ comment_form.media }}
-                                        {{ comment_form.body }}
+                                            <br>
+                                        {% endfor %}
                                     </div>
-                                </div>
-                                <!-- 提交按钮 -->
-                                <button type="submit" class="btn btn-primary ">发送</button>
-                            </form>
+                                    <!-- End of Single Comment -->
+                                </li>
+                                <li class="single-comment-wrapper">
+                            </ul>
                         </div>
-                        <br>
+
+                        {% if user.is_authenticated %}
+                            <div>
+                                <form
+                                        action="{% url 'comment:post_comment' article.id %}"
+                                        method="POST"
+                                >
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="body">
+                                            <strong>
+                                                我也要发言：
+                                            </strong>
+                                        </label>
+                                        {#                                    <textarea#}
+                                        {#                                            type="text"#}
+                                        {#                                            class="form-control"#}
+                                        {#                                            id="body"#}
+                                        {#                                            name="body"#}
+                                        {#                                            rows="2"></textarea>#}
+                                        <div>
+                                            {{ comment_form.media }}
+                                            {{ comment_form.body }}
+                                        </div>
+                                    </div>
+                                    <!-- 提交按钮 -->
+                                    <button type="submit" class="btn btn-primary ">发送</button>
+                                </form>
+                            </div>
+                            <br>
+                        {% else %}
+                            <br>
+                            <h5 class="row justify-content-center">
+                                请<a href="{% url 'userprofile:login' %}">登录</a>后回复
+                            </h5>
+                            <br>
+                        {% endif %}
                     {% else %}
-                        <br>
-                        <h5 class="row justify-content-center">
-                            请<a href="{% url 'userprofile:login' %}">登录</a>后回复
-                        </h5>
-                        <br>
-                    {% endif %}
-                {% else %}
                         <div>
-                        <p>暂未开放评论功能</p>
+                            <p>暂未开放评论功能</p>
                         </div>
-                {% endif %}
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
@@ -214,5 +217,6 @@
 {% endblock js_extra %}
 {% block css_extra %}
     <link href="https://cdn.bootcss.com/highlight.js/9.15.8/styles/github.min.css" rel="stylesheet">
+    <link href="{% static 'blog/css/github-markdown-css/github-markdown.css' %}">
     {#    <link href="{% static 'blog/css/md_css/monokai.css' %}" rel="stylesheet">#}
 {% endblock css_extra %}

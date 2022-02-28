@@ -17,10 +17,9 @@
     <div class="container pb-120">
         <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8">
-                <div id="article_content" style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;">
-                    <textarea style="display: none">{{ article.body | safe }}</textarea>
+                <div class="markdown-body">
+                    <p>{{ article.body | safe }}</p>
                 </div>
-
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
                 {% include 'blog/right.html' %}
@@ -30,23 +29,25 @@
 {% endblock content %}
 {% block css_extra %}
     {#    <link rel="stylesheet" href="{% static 'blog/mdeditor/css/editormd.preview.min.css' %}"/>#}
+    <link rel="stylesheet" href="{% static 'blog/css/github-markdown-css/github-markdown.css' %}" />
+    <link rel="stylesheet" href="{% static 'blog/css/md_css/monokai.css' %}"/>
 {% endblock %}
 {% block js_extra %}
     {#    <script src="{% static 'blog/mdeditor/js/lib/codemirror/codemirror.min.js' %}"></script>#}
     {#    <script src="{% static 'blog/mdeditor/js/lib/codemirror/modes.min.js' %}"></script>#}
     {#    <script src="{% static 'blog/mdeditor/js/lib/codemirror/addons.min.js' %}"></script>#}
-    <script src="{% static 'blog/mdeditor/js/lib/marked.min.js' %}"></script>
-    <script src="{% static 'blog/mdeditor/js/lib/prettify.min.js' %}"></script>
-    <script src="{% static 'blog/mdeditor/js/editormd.js' %}"></script>
+{#    <script src="{% static 'blog/mdeditor/js/lib/marked.min.js' %}"></script>#}
+{#    <script src="{% static 'blog/mdeditor/js/lib/prettify.min.js' %}"></script>#}
+{#    <script src="{% static 'blog/mdeditor/js/editormd.js' %}"></script>#}
     {#    <script src="{% static 'blog/mdeditor/js/lib/raphael.min.js' %}"></script>#}
     {#    <script src="{% static 'blog/mdeditor/js/lib/underscore.min.js' %}"></script>#}
     {#    <script src="{% static 'blog/mdeditor/js/lib/flowchart.min.js' %}"></script>#}
     {#    <script src="{% static 'blog/mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>#}
     {#    <script src="{% static 'blog/mdeditor/js/lib/sequence-diagram.min.js' %}"></script>#}
-    <script>
-        editormd.markdownToHTML("article_content", { //article_content是html文档的ID
-            emoji: true,
-            taskList: true,
-        });
-    </script>
+{#    <script>#}
+{#        editormd.markdownToHTML("article_content", { //article_content是html文档的ID#}
+{#            emoji: true,#}
+{#            taskList: true,#}
+{#        });#}
+{#    </script>#}
 {% endblock %}

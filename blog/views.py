@@ -73,20 +73,22 @@ def detail(request, id):
     article = ArticlePost.objects.get(id=id)
     article.total_views += 1
     article.save(update_fields=['total_views'])
-    md = markdown.Markdown(extensions=[
+
+    # 修改 Markdown 语法渲染
+    md = markdown.Markdown(
+        extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
-        'markdown.extensions.fenced_code',
         'markdown.extensions.toc',
-        'markdown.extensions.tables',
-    ])
-    # 获得目录
-    md.convert(article.body)
+        ]
+    )
+    article.body = md.convert(article.body)
+
 
     # 取出文章评论
     comments = Comment.objects.filter(article=id)
     comment_form = CommentForm()
-    context = {"article": article, 'toc': md.toc, 'comments': comments, 'comment_form': comment_form}
+    context = {"article": article, 'comments': comments, 'comment_form': comment_form, 'toc': md.toc}
     # return render(request, "blog/detail.html", context=context)
     return render(request, "blog/article-content.html", context=context)
 

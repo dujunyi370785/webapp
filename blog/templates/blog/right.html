@@ -5,19 +5,18 @@
         <div class="my-sidebar" id="sidebar">
             <div class="sidebar__inner">
                 <!-- Author Widget -->
-                {% if toc %}
-                    <div class="widget widget-about">
-                        <!-- Widget Content -->
-                        <div class="widget-content">
-
-                            <h4><strong>目录</strong></h4>
-                            <hr>
-                            <div>
-                                {{ toc|safe }}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
+                {#                {% if toc %}#}
+                {#                    <div class="widget widget-about">#}
+                {#                        <!-- Widget Content -->#}
+                {#                        <div class="widget-content">#}
+                {#                            <hr>#}
+                {#                            <div class="toc_div">#}
+                {#                                <h4><strong>目录</strong></h4>#}
+                {#                                {{ toc|safe }}#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                {% endif %}#}
                 <!-- Author Widget -->
                 <div class="widget widget-about">
                     <!-- Widget Content -->
@@ -105,3 +104,28 @@
         </div>
     {% endblock right %}
 {% endblock main %}
+{% block js_extra %}
+    <!-- 引入粘性侧边栏 -->
+    <script src="{% static 'blog/sticky_sidebar/jquery.sticky-sidebar.min.js' %}"></script>
+    <script type="text/javascript">
+        $('#sidebar').stickySidebar({
+            topSpacing: 20,
+            bottomSpacing: 20,
+        });
+    </script>
+    <style>
+        .sidebar {
+            will-change: min-height;
+        }
+
+        .sidebar__inner {
+            transform: translate(0, 0);
+            transform: translate3d(0, 0, 0);
+            will-change: position, transform;
+        }
+    </style>
+
+{% endblock %}
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'blog/css/md_css/toc.css' %}"/>
+{% endblock %}

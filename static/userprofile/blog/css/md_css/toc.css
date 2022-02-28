@@ -1,0 +1,16 @@
+.toc_div
+{
+height: 80%; /*目录框的高度*/
+float:left;/*目录框的位置*/
+overflow-y:scroll;/*目录框添加滚动条*/
+padding-right: 10px;
+position: fixed;/*目录框相对浏览器进行定位*/
+width:17%;/*目录框的宽度*/
+}
+/*右边正文的样式*/
+.right-div
+{
+float:right;/*正文的位置*/
+padding-left: 10px;/*边距*/
+width:80%;/*正文的宽度*/
+}
